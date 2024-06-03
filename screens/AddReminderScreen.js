@@ -60,6 +60,7 @@ const AddReminderScreen = () => {
             value={reminderText}
             onChangeText={(text) => setReminderText(text)}
             multiline={true}
+            textAlignVertical="top" // Add this line
           />
           <TouchableOpacity style={styles.addButton}>
             <Text style={styles.addButtonText}>ADD REMINDER</Text>
@@ -106,13 +107,16 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
     borderRadius: 8,
     marginBottom: 20,
+    textAlignVertical: "top", // Add this line
   },
   addButton: {
-    backgroundColor: "#00BFFF",
-    paddingVertical: 15,
-    borderRadius: 10,
+    height: 50,
+    width: "100%",
+    backgroundColor: "#1DA1F2",
+    justifyContent: "center",
     alignItems: "center",
     marginBottom: 20,
+    borderRadius: 40,
   },
   addButtonText: {
     color: "#fff",
