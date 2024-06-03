@@ -1318,6 +1318,24 @@
     node-forge "^1.2.1"
     nullthrows "^1.1.1"
 
+"@expo/config-plugins@^2.0.0":
+  version "2.0.4"
+  resolved "https://registry.npmjs.org/@expo/config-plugins/-/config-plugins-2.0.4.tgz"
+  integrity sha512-JGt/X2tFr7H8KBQrKfbGo9hmCubQraMxq5sj3bqDdKmDOLcE1a/EDCP9g0U4GHsa425J8VDIkQUHYz3h3ndEXQ==
+  dependencies:
+    "@expo/config-types" "^41.0.0"
+    "@expo/json-file" "8.2.30"
+    "@expo/plist" "0.0.13"
+    debug "^4.3.1"
+    find-up "~5.0.0"
+    fs-extra "9.0.0"
+    getenv "^1.0.0"
+    glob "7.1.6"
+    resolve-from "^5.0.0"
+    slash "^3.0.0"
+    xcode "^3.0.1"
+    xml2js "^0.4.23"
+
 "@expo/config-plugins@~8.0.0", "@expo/config-plugins@~8.0.0-beta.0", "@expo/config-plugins@8.0.4":
   version "8.0.4"
   resolved "https://registry.npmjs.org/@expo/config-plugins/-/config-plugins-8.0.4.tgz"
