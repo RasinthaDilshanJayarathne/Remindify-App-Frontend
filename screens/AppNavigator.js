@@ -3,6 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import LoginScreen from "./LoginScreen";
 import RegisterScreen from "./RegisterScreen";
 import TabNavigator from "./TabNavigator";
+import EditProfileScreen from "./EditProfileScreen";
 
 const Stack = createStackNavigator();
 
@@ -23,6 +24,14 @@ const AppNavigator = () => {
         name="Home"
         component={TabNavigator}
         options={{ headerShown: false }}
+      />
+      <Tab.Screen
+        name="EditProfile"
+        component={EditProfileScreen}
+        options={{
+          headerShown: false,
+          tabBarLabel: () => null,
+        }}
       />
     </Stack.Navigator>
   );
