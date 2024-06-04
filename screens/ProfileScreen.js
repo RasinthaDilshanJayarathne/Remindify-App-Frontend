@@ -91,10 +91,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-  },
   headerIcons: {
     flexDirection: "row",
   },
