@@ -87,7 +87,7 @@ const EditProfileScreen = ({ navigation }) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="arrow-back" size={24} color="#fff" />
+          <Icon name="arrow-back" size={24} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Edit Profile</Text>
       </View>
@@ -149,22 +149,27 @@ const EditProfileScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#f5f5f5",
+    flexGrow: 1,
+    paddingHorizontal: 20,
+    paddingTop: Platform.OS === "ios" ? 30 : 30,
+    backgroundColor: "#fff",
   },
   header: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: 20,
-    paddingTop: Platform.OS === "ios" ? 60 : 20,
-    paddingBottom: 20,
-    backgroundColor: "#00BFFF",
+    paddingTop: Platform.OS === "ios" ? 30 : 30,
+    backgroundColor: "#fff",
+    height: 75,
   },
   headerTitle: {
-    color: "#fff",
     fontSize: 18,
     fontWeight: "bold",
+    textAlign: "center",
+  },
+  headerIcons: {
+    flexDirection: "row",
   },
   profileContainer: {
     alignItems: "center",

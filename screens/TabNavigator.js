@@ -7,7 +7,9 @@ import ProfileScreen from "./ProfileScreen";
 import AddReminderScreen from "./AddReminderScreen";
 import ShowRemindersScreen from "./ShowRemindersScreen";
 import TextSummarizeScreen from "./TextSummarizeScreen";
-import AddMembersScreen from "./AddMembersScreen";
+import AddMembersScreen from "./CreateGroupScreen";
+import ViewGroup from "./ViewGroup";
+import ViewAllGroups from "./ViewAllGroups";
 
 const Tab = createBottomTabNavigator();
 
@@ -50,12 +52,16 @@ const TabNavigator = () => {
             iconName = "book-outline";
           } else if (route.name === "ShowReminders") {
             iconName = "time-outline";
-          } else if (route.name === "Profile") {
-            customComponent = <CircularImage source={newImage} size={size} />;
+          } else if (route.name === "ViewGroup") {
+            // customComponent = <CircularImage source={newImage} size={size} />;
+            iconName = "time-outline";
           } else if (route.name === "textSummarizeScreen") {
             iconName = "document-text-outline";
           } else if (route.name === "addMembersScreen") {
             iconName = "person-add-outline";
+          } else if (route.name === "ViewAllGroups") {
+            // customComponent = <CircularImage source={newImage} size={size} />;
+            iconName = "time-outline";
           }
 
           return customComponent ? (
@@ -128,9 +134,17 @@ const TabNavigator = () => {
           tabBarLabel: () => null,
         }}
       />
+      {/* <Tab.Screen
+        name="ViewGroup"
+        component={ViewGroup}
+        options={{
+          headerShown: false,
+          tabBarLabel: () => null,
+        }}
+      /> */}
       <Tab.Screen
-        name="Profile"
-        component={ProfileScreen}
+        name="ViewAllGroups"
+        component={ViewAllGroups}
         options={{
           headerShown: false,
           tabBarLabel: () => null,

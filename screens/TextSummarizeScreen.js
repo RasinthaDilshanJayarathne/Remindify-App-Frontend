@@ -12,8 +12,10 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import * as ImagePicker from "expo-image-picker";
+import { useNavigation } from "@react-navigation/native";
 
 const TextSummarizeScreen = () => {
+  const navigation = useNavigation();
   const [photo, setPhoto] = useState(null);
 
   const handleTakePhoto = async () => {
@@ -81,10 +83,11 @@ const TextSummarizeScreen = () => {
     >
       <View style={styles.container}>
         <View style={styles.header}>
-          <Icon name="arrow-back" size={24} color="#000" />
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Icon name="arrow-back" size={24} color="#000" />
+          </TouchableOpacity>
           <Text style={styles.headerTitle}>Text Summarizing</Text>
           <View style={styles.headerIcons}>
-            <Icon name="search" size={24} color="#000" style={styles.icon} />
             <Icon name="notifications" size={24} color="#000" />
           </View>
         </View>
@@ -115,12 +118,6 @@ const TextSummarizeScreen = () => {
             <Text style={styles.saveButtonText}>GEN REMINDER / SAVE</Text>
           </TouchableOpacity>
         </ScrollView>
-        <View style={styles.bottomNav}>
-          <Icon name="home" size={24} color="#00BFFF" />
-          <Icon name="compass" size={24} color="#000" />
-          <Icon name="clipboard" size={24} color="#000" />
-          <Icon name="person" size={24} color="#000" />
-        </View>
       </View>
     </KeyboardAvoidingView>
   );
@@ -138,9 +135,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: Platform.OS === "ios" ? 30 : 30,
     backgroundColor: "#fff",
-    paddingBottom: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#e0e0e0",
+    height: 75,
   },
   headerTitle: {
     fontSize: 18,

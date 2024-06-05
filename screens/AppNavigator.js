@@ -4,6 +4,8 @@ import LoginScreen from "./LoginScreen";
 import RegisterScreen from "./RegisterScreen";
 import TabNavigator from "./TabNavigator";
 import EditProfileScreen from "./EditProfileScreen";
+import GroupSettings from "./GroupSettings";
+import ViewGroup from "./ViewGroup";
 
 const Stack = createStackNavigator();
 
@@ -25,12 +27,25 @@ const AppNavigator = () => {
         component={TabNavigator}
         options={{ headerShown: false }}
       />
-      <Tab.Screen
+      <Stack.Screen
         name="EditProfile"
         component={EditProfileScreen}
         options={{
           headerShown: false,
-          tabBarLabel: () => null,
+        }}
+      />
+      <Stack.Screen
+        name="ViewGroup"
+        component={ViewGroup}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="GroupSettings"
+        component={GroupSettings}
+        options={{
+          headerShown: false,
         }}
       />
     </Stack.Navigator>

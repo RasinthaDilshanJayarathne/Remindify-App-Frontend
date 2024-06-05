@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Platform,
 } from "react-native";
+import Icon from "react-native-vector-icons/Ionicons";
 
 const PortfolioScreen = ({ navigation }) => {
   return (
@@ -75,8 +76,10 @@ const PortfolioScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#f5f5f5",
+    flexGrow: 1,
+    paddingHorizontal: 20,
+    paddingTop: Platform.OS === "ios" ? 30 : 30,
+    backgroundColor: "#fff",
   },
   header: {
     flexDirection: "row",
