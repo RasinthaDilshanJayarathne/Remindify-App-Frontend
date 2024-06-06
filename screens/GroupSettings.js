@@ -253,8 +253,10 @@ const GroupSettings = ({ onAddMember }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#f0f0f0",
+    flexGrow: 1,
+    paddingHorizontal: 20,
+    paddingTop: Platform.OS === "ios" ? 30 : 30,
+    backgroundColor: "#f5f5f5",
   },
   header: {
     flexDirection: "row",

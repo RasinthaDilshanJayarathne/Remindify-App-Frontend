@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     paddingHorizontal: 20,
     paddingTop: Platform.OS === "ios" ? 30 : 30,
-    backgroundColor: "#fff",
+    backgroundColor: "#f5f5f5",
   },
   header: {
     flexDirection: "row",

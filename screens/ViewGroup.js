@@ -88,8 +88,10 @@ const ViewGroup = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#fff",
+    flexGrow: 1,
+    paddingHorizontal: 20,
+    paddingTop: Platform.OS === "ios" ? 30 : 30,
+    backgroundColor: "#f5f5f5",
   },
   header: {
     flexDirection: "row",
