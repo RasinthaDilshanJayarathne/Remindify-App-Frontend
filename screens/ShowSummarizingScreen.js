@@ -11,19 +11,20 @@ import {
 import Icon from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native"; // Import useNavigation hook
 
-const reminders = [
-  "Reminder 01",
-  "Reminder 02",
-  "Reminder 03",
-  "Reminder 04",
-  "Reminder 05",
-  "Reminder 06",
-  "Reminder 07",
-  "Reminder 08",
-  "Reminder 09",
+const summaries = [
+  "Summery 01",
+  "Summery 01",
+  "Summery 01",
+  "Summery 01",
+  "Summery 01",
+  "Summery 01",
+  "Summery 01",
+  "Summery 01",
+  "Summery 01",
+  "Summery 01",
 ];
 
-const ShowRemindersScreen = () => {
+const ShowSummarizingScreen = () => {
   const navigation = useNavigation(); // Initialize navigation
   return (
     <KeyboardAvoidingView
@@ -44,10 +45,10 @@ const ShowRemindersScreen = () => {
         </View>
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           <Text style={styles.greetingText}>Welcome back Reminder App!</Text>
-          <View style={styles.remindersContainer}>
-            {reminders.map((reminder, index) => (
-              <View key={index} style={styles.reminderBox}>
-                <Text style={styles.reminderText}>{reminder}</Text>
+          <View style={styles.summariesContainer}>
+            {summaries.map((reminder, index) => (
+              <View key={index} style={styles.summaryBox}>
+                <Text style={styles.summaryText}>{reminder}</Text>
                 <Icon name="share-social-outline" size={20} color="#000" />
               </View>
             ))}
@@ -91,27 +92,25 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 20,
   },
-  remindersContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
+  summariesContainer: {
+    flexDirection: "column",
   },
-  reminderBox: {
-    width: "48%",
-    height: 150,
+  summaryBox: {
+    width: "100%",
     backgroundColor: "#fff",
     borderRadius: 10,
-    justifyContent: "center",
-    alignItems: "center",
+    padding: 15,
     marginBottom: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 10,
     elevation: 5,
-    padding: 10,
   },
-  reminderText: {
+  summaryText: {
     fontSize: 16,
     marginBottom: 10,
   },
@@ -126,4 +125,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ShowRemindersScreen;
+export default ShowSummarizingScreen;

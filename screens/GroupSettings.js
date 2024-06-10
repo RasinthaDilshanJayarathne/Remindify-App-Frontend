@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   View,
   Text,
@@ -45,6 +45,8 @@ const GroupSettings = ({ onAddMember }) => {
   const [groupName, setGroupName] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [groupNameModalVisible, setGroupNameModalVisible] = useState(false);
+  const [deleteConfirmModalVisible, setDeleteConfirmModalVisible] =
+    useState(false); // New state for delete confirmation modal
   const [currentlySwiped, setCurrentlySwiped] = useState(null);
   const swipeableRefs = useRef([]);
 
@@ -67,6 +69,12 @@ const GroupSettings = ({ onAddMember }) => {
   const handleUpdateGroupName = (newName) => {
     setGroupName(newName);
     setGroupNameModalVisible(false);
+  };
+
+  const handleDeleteGroup = () => {
+    // Add your logic to delete the group here
+    console.log("Group deleted");
+    setDeleteConfirmModalVisible(false);
   };
 
   const renderMemberItem = ({ item, index }) => {
@@ -96,14 +104,22 @@ const GroupSettings = ({ onAddMember }) => {
         }}
       >
         <View style={styles.memberItem}>
-          <View
-            style={[styles.circle, { backgroundColor: getRandomColor() }]}
-          />
+          <View style={[styles.circle, { backgroundColor: item.color }]} />
           <Text style={styles.memberName}>{item.name}</Text>
         </View>
       </Swipeable>
     );
   };
+
+  useEffect(() => {
+    // Assign random colors to members when component mounts
+    setMembers((prevMembers) =>
+      prevMembers.map((member) => ({
+        ...member,
+        color: getRandomColor(),
+      }))
+    );
+  }, []);
 
   const getRandomColor = () => {
     const colors = ["#FF5733", "#33FF57", "#3357FF", "#F1C40F", "#9B59B6"];
@@ -130,7 +146,9 @@ const GroupSettings = ({ onAddMember }) => {
           >
             <AntDesign name="edit" size={20} color="black" />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.deleteButton}>
+          <TouchableOpacity
+            onPress={() => setDeleteConfirmModalVisible(true)} // Show delete confirmation modal
+          >
             <AntDesign name="delete" size={20} color="black" />
           </TouchableOpacity>
         </View>
@@ -247,15 +265,46 @@ const GroupSettings = ({ onAddMember }) => {
           </View>
         </TouchableWithoutFeedback>
       </Modal>
+
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={deleteConfirmModalVisible} // Delete confirmation modal visibility state
+        onRequestClose={() => setDeleteConfirmModalVisible(false)}
+      >
+        <TouchableWithoutFeedback
+          onPress={() => setDeleteConfirmModalVisible(false)}
+        >
+          <View style={styles.modalBackground}>
+            <View style={styles.confirmModalContainer}>
+              <Text style={styles.confirmModalTitle}>
+                Are you sure to delete group?
+              </Text>
+              <View style={styles.confirmModalButtons}>
+                <TouchableOpacity
+                  style={[styles.modalButton, styles.cancelButton]}
+                  onPress={() => setDeleteConfirmModalVisible(false)}
+                >
+                  <Text style={styles.modalButtonText}>Cancel</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.modalButton, styles.deleteButton]}
+                  onPress={handleDeleteGroup}
+                >
+                  <Text style={styles.modalButtonText}>Delete</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
-    paddingHorizontal: 20,
-    paddingTop: Platform.OS === "ios" ? 30 : 30,
+    flex: 1,
     backgroundColor: "#f5f5f5",
   },
   header: {
@@ -294,7 +343,10 @@ const styles = StyleSheet.create({
   editButton: {
     marginRight: 10,
   },
-  deleteButton: {},
+  deleteButton: {
+    backgroundColor: "#FF0000",
+    marginBottom: 10,
+  },
   membersList: {
     flex: 1,
     backgroundColor: "#fff",
@@ -329,14 +381,23 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   addMemberButton: {
-    backgroundColor: "#007BFF",
-    padding: 10,
-    borderRadius: 8,
+    // backgroundColor: "#007BFF",
+    // padding: 10,
+    // borderRadius: 8,
+    // alignItems: "center",
+
+    height: 50,
+    width: "100%",
+    backgroundColor: "#1DA1F2",
+    justifyContent: "center",
     alignItems: "center",
+    marginBottom: 10,
+    borderRadius: 40,
   },
   addMemberButtonText: {
     color: "#fff",
-    fontSize: 16,
+    fontSize: 18,
+    fontWeight: "bold",
   },
   modalBackground: {
     flex: 1,
@@ -410,6 +471,24 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 8,
     paddingHorizontal: 10,
+  },
+  confirmModalContainer: {
+    width: Dimensions.get("window").width * 0.8,
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    padding: 20,
+    alignItems: "center",
+  },
+  confirmModalTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 20,
+    textAlign: "center",
+  },
+  confirmModalButtons: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
   },
 });
 

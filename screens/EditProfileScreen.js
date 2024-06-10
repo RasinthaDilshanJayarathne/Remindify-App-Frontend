@@ -149,9 +149,7 @@ const EditProfileScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
-    paddingHorizontal: 20,
-    paddingTop: Platform.OS === "ios" ? 30 : 30,
+    flex: 1,
     backgroundColor: "#f5f5f5",
   },
   header: {

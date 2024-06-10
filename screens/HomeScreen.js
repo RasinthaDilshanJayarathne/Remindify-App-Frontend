@@ -12,10 +12,9 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 
-// Import your new image
 const newImage = require("../assets/home_pic.png");
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   const [scrollBackground, setScrollBackground] = useState("transparent");
 
   const handleScroll = (event) => {
@@ -55,8 +54,14 @@ const HomeScreen = () => {
         >
           <Image source={newImage} style={styles.image} />
           <View style={styles.optionContainer}>
-            <OptionItem title="Reminders Management" />
-            <OptionItem title="Text Summarizing" />
+            <OptionItem
+              title="Reminders Management"
+              onPress={() => navigation.navigate("ShowReminders")}
+            />
+            <OptionItem
+              title="Text Summarizing"
+              onPress={() => navigation.navigate("ShowSummarizing")}
+            />
             <OptionItem title="Health Support Reminders" />
             <OptionItem title="Collaborative Reminders" />
           </View>
@@ -66,8 +71,8 @@ const HomeScreen = () => {
   );
 };
 
-const OptionItem = ({ title }) => (
-  <TouchableOpacity style={styles.optionItem}>
+const OptionItem = ({ title, onPress }) => (
+  <TouchableOpacity style={styles.optionItem} onPress={onPress}>
     <View style={styles.optionIcon}>
       <Icon name="notifications" size={20} color="#000" />
     </View>

@@ -110,14 +110,14 @@ const TabNavigator = () => {
           tabBarLabel: () => null,
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="ShowReminders"
         component={ShowRemindersScreen}
         options={{
           headerShown: false,
           tabBarLabel: () => null,
         }}
-      />
+      /> */}
       <Tab.Screen
         name="textSummarizeScreen"
         component={TextSummarizeScreen}

@@ -6,6 +6,8 @@ import TabNavigator from "./TabNavigator";
 import EditProfileScreen from "./EditProfileScreen";
 import GroupSettings from "./GroupSettings";
 import ViewGroup from "./ViewGroup";
+import ShowRemindersScreen from "./ShowRemindersScreen";
+import ShowSummarizingScreen from "./ShowSummarizingScreen";
 
 const Stack = createStackNavigator();
 
@@ -44,6 +46,20 @@ const AppNavigator = () => {
       <Stack.Screen
         name="GroupSettings"
         component={GroupSettings}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="ShowReminders"
+        component={ShowRemindersScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="ShowSummarizing"
+        component={ShowSummarizingScreen}
         options={{
           headerShown: false,
         }}
