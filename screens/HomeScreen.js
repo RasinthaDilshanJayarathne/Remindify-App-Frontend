@@ -11,8 +11,10 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 const newImage = require("../assets/home_pic.png");
+const profileImage = require("../assets/my.png"); // Replace with your actual image path
 
 const HomeScreen = ({ navigation }) => {
   const [scrollBackground, setScrollBackground] = useState("transparent");
@@ -36,9 +38,14 @@ const HomeScreen = ({ navigation }) => {
       <View style={{ flex: 1 }}>
         {/* Static part */}
         <View style={styles.staticContainer}>
-          <View style={styles.searchContainer}>
-            <TextInput style={styles.searchInput} placeholder="Search" />
-            <Icon name="search" size={20} color="#ccc" />
+          <View style={styles.headerContainer}>
+            <View style={styles.searchContainer}>
+              <TextInput style={styles.searchInput} placeholder="Search" />
+              <Icon name="search" size={20} color="#ccc" />
+            </View>
+            <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+              <Image source={profileImage} style={styles.profileImage} />
+            </TouchableOpacity>
           </View>
           <Text style={styles.greetingText}>Hello Rasintha,</Text>
         </View>
@@ -56,14 +63,26 @@ const HomeScreen = ({ navigation }) => {
           <View style={styles.optionContainer}>
             <OptionItem
               title="Reminders Management"
+              iconName="alarm"
+              iconColor="#ff6347"
               onPress={() => navigation.navigate("ShowReminders")}
             />
             <OptionItem
               title="Text Summarizing"
+              iconName="text-fields"
+              iconColor="#4682b4"
               onPress={() => navigation.navigate("ShowSummarizing")}
             />
-            <OptionItem title="Health Support Reminders" />
-            <OptionItem title="Collaborative Reminders" />
+            <OptionItem
+              title="Health Support Reminders"
+              iconName="fitness-center"
+              iconColor="#32cd32"
+            />
+            <OptionItem
+              title="Collaborative Reminders"
+              iconName="group"
+              iconColor="#ff8c00"
+            />
           </View>
         </ScrollView>
       </View>
@@ -71,10 +90,10 @@ const HomeScreen = ({ navigation }) => {
   );
 };
 
-const OptionItem = ({ title, onPress }) => (
+const OptionItem = ({ title, iconName, iconColor, onPress }) => (
   <TouchableOpacity style={styles.optionItem} onPress={onPress}>
-    <View style={styles.optionIcon}>
-      <Icon name="notifications" size={20} color="#000" />
+    <View style={[styles.optionIcon, { backgroundColor: iconColor + "1A" }]}>
+      <MaterialIcons name={iconName} size={24} color={iconColor} />
     </View>
     <Text style={styles.optionText}>{title}</Text>
   </TouchableOpacity>
@@ -92,6 +111,13 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === "ios" ? 30 : 30,
     backgroundColor: "#fff",
   },
+  headerContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 20,
+    marginTop: 10,
+  },
   searchContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -99,13 +125,18 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 10,
     paddingVertical: 5,
-    marginBottom: 20,
-    marginTop: 10,
+    flex: 1,
+    marginRight: 10,
   },
   searchInput: {
     flex: 1,
     fontSize: 20,
     height: 30,
+  },
+  profileImage: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
   },
   greetingText: {
     fontSize: 24,
@@ -142,7 +173,6 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "#e0e0e0",
     justifyContent: "center",
     alignItems: "center",
     marginRight: 10,

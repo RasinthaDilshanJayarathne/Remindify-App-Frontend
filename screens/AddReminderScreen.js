@@ -34,9 +34,7 @@ const AddReminderScreen = () => {
       keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
     >
       <View style={{ flex: 1 }}>
-        {/* Static part */}
         <View style={styles.header}>
-          {/* Navigate back to Home on press */}
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <Icon name="arrow-back" size={24} color="#000" />
           </TouchableOpacity>
@@ -45,7 +43,6 @@ const AddReminderScreen = () => {
             <Icon name="notifications" size={24} color="#000" />
           </View>
         </View>
-        {/* Scrollable part */}
         <ScrollView
           contentContainerStyle={[styles.container, { paddingBottom: 90 }]}
           onScroll={handleScroll}

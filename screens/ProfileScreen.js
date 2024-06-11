@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 
-const PortfolioScreen = ({ navigation }) => {
+const ProfileScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   editButton: {
-    backgroundColor: "#00BFFF",
+    backgroundColor: "#1DA1F2",
     paddingVertical: 10,
     paddingHorizontal: 20,
     marginBottom: 20,
@@ -137,4 +137,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PortfolioScreen;
+export default ProfileScreen;

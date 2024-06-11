@@ -17,6 +17,7 @@ const logoSl = require("../assets/srilanka_logo.png");
 
 const LoginScreen = ({ navigation }) => {
   const [keyboardOpen, setKeyboardOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -37,6 +38,15 @@ const LoginScreen = ({ navigation }) => {
       keyboardDidHideListener.remove();
     };
   }, []);
+
+  const handleLogin = () => {
+    setLoading(true);
+    // Navigate to LoadingScreen
+    setTimeout(() => {
+      setLoading(false);
+      navigation.navigate("Loading");
+    }, 2000); // Simulate login process duration as needed
+  };
 
   return (
     <KeyboardAvoidingView
@@ -74,7 +84,8 @@ const LoginScreen = ({ navigation }) => {
         <Text style={styles.forgotPassword}>Forget Password ?</Text>
         <TouchableOpacity
           style={styles.loginButton}
-          onPress={() => navigation.navigate("Home")}
+          onPress={handleLogin}
+          disabled={loading}
         >
           <Text style={styles.loginButtonText}>Login</Text>
         </TouchableOpacity>

@@ -8,6 +8,8 @@ import GroupSettings from "./GroupSettings";
 import ViewGroup from "./ViewGroup";
 import ShowRemindersScreen from "./ShowRemindersScreen";
 import ShowSummarizingScreen from "./ShowSummarizingScreen";
+import LoadingScreen from "./LoadingScreen"; // Import LoadingScreen
+import ProfileScreen from "./ProfileScreen";
 
 const Stack = createStackNavigator();
 
@@ -25,6 +27,11 @@ const AppNavigator = () => {
         options={{ headerShown: false }}
       />
       <Stack.Screen
+        name="Loading"
+        component={LoadingScreen} // Add LoadingScreen to the navigator
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
         name="Home"
         component={TabNavigator}
         options={{ headerShown: false }}
@@ -32,6 +39,13 @@ const AppNavigator = () => {
       <Stack.Screen
         name="EditProfile"
         component={EditProfileScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Profile"
+        component={ProfileScreen}
         options={{
           headerShown: false,
         }}

@@ -21,75 +21,23 @@ const EditProfileScreen = ({ navigation }) => {
   const [organization, setOrganization] = useState("");
 
   const handleTakePhoto = async () => {
-    const { status: cameraStatus } =
-      await ImagePicker.requestCameraPermissionsAsync();
-    const { status: mediaLibraryStatus } =
-      await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (cameraStatus !== "granted" || mediaLibraryStatus !== "granted") {
-      alert(
-        "Sorry, we need camera and camera roll permissions to make this work!"
-      );
-      return;
-    }
-
-    Alert.alert(
-      "Upload Photo",
-      "Choose an option",
-      [
-        {
-          text: "Take Photo",
-          onPress: async () => {
-            const result = await ImagePicker.launchCameraAsync({
-              mediaTypes: ImagePicker.MediaTypeOptions.Images,
-              quality: 1,
-            });
-            console.log("Camera result:", result);
-            if (!result.cancelled) {
-              setPhoto(result.uri);
-            }
-          },
-        },
-        {
-          text: "Choose from Gallery",
-          onPress: async () => {
-            const result = await ImagePicker.launchImageLibraryAsync({
-              mediaTypes: ImagePicker.MediaTypeOptions.Images,
-              quality: 1,
-            });
-            console.log("Gallery result:", result);
-            if (!result.cancelled) {
-              setPhoto(result.uri);
-            }
-          },
-        },
-        { text: "Cancel", style: "cancel" },
-      ],
-      { cancelable: true }
-    );
+    // Image picker logic
   };
 
   const handleUpdateProfile = () => {
-    console.log("Profile updated with:", {
-      email,
-      userName,
-      birthday,
-      password,
-      organization,
-      photo,
-    });
-    Alert.alert(
-      "Profile Updated!",
-      "Your profile has been updated successfully."
-    );
+    // Update profile logic
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="arrow-back" size={24} />
+          <Icon name="arrow-back" size={24} color="#000" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Edit Profile</Text>
+        <Text style={styles.headerTitle}>Manage Reminder</Text>
+        <View style={styles.headerIcons}>
+          <Icon name="notifications" size={24} color="#000" />
+        </View>
       </View>
       <View style={styles.profileContainer}>
         <TouchableOpacity onPress={handleTakePhoto}>
@@ -149,7 +97,9 @@ const EditProfileScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
+    paddingHorizontal: 20,
+    paddingTop: Platform.OS === "ios" ? 30 : 30,
     backgroundColor: "#f5f5f5",
   },
   header: {
@@ -160,11 +110,12 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === "ios" ? 30 : 30,
     backgroundColor: "#fff",
     height: 75,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
   },
   headerTitle: {
     fontSize: 18,
     fontWeight: "bold",
-    textAlign: "center",
   },
   headerIcons: {
     flexDirection: "row",
