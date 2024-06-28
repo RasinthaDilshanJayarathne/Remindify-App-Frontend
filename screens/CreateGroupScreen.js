@@ -31,17 +31,30 @@ const AddMembersScreen = () => {
     { id: "10", name: "Rasintha Dilshan", selected: false },
     { id: "11", name: "Rasintha Dilshan", selected: false },
     { id: "12", name: "Rasintha Dilshan", selected: false },
+    { id: "11", name: "Rasintha Dilshan", selected: false },
+    { id: "12", name: "Rasintha Dilshan", selected: false },
   ]);
 
   const [isShareModalVisible, setIsShareModalVisible] = useState(false);
   const [groupName, setGroupName] = useState("");
+  const [selectAll, setSelectAll] = useState(false); // Track select all state
 
+  // Toggle selection for individual member
   const toggleSelection = (id) => {
     setMembers((prevMembers) =>
       prevMembers.map((member) =>
         member.id === id ? { ...member, selected: !member.selected } : member
       )
     );
+  };
+
+  // Toggle select all members
+  const toggleSelectAll = () => {
+    const allSelected = !selectAll;
+    setMembers((prevMembers) =>
+      prevMembers.map((member) => ({ ...member, selected: allSelected }))
+    );
+    setSelectAll(allSelected);
   };
 
   const renderItem = ({ item }) => (
@@ -89,22 +102,22 @@ const AddMembersScreen = () => {
             <Icon name="arrow-back" size={24} color="#000" />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Add Members</Text>
-          <View style={styles.headerIcons}>
-            <Icon name="search" size={24} color="#000" style={styles.icon} />
-            <Icon name="notifications" size={24} color="#000" />
-          </View>
+          <TouchableOpacity onPress={toggleSelectAll}>
+            <Text style={styles.selectAllText}>
+              {selectAll ? "Unselect All" : "Select All"}
+            </Text>
+          </TouchableOpacity>
         </View>
         <FlatList
           data={members}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
-          contentContainerStyle={{ paddingBottom: 20, paddingHorizontal: 20 }}
-          ListFooterComponent={
-            <TouchableOpacity style={styles.shareButton} onPress={handleShare}>
-              <Text style={styles.shareButtonText}>Create Group</Text>
-            </TouchableOpacity>
-          }
+          contentContainerStyle={{ paddingBottom: 120, paddingHorizontal: 20 }} // Adjust paddingBottom to avoid overlap with the button
         />
+
+        <TouchableOpacity style={styles.fab} onPress={handleShare}>
+          <Icon name="add" size={24} color="#fff" />
+        </TouchableOpacity>
 
         <Modal
           animationType="fade"
@@ -162,30 +175,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
-  headerIcons: {
-    flexDirection: "row",
-  },
-  icon: {
-    marginRight: 10,
-  },
-  welcomeText: {
+  selectAllText: {
     fontSize: 16,
-    color: "#777",
-    marginBottom: 20,
-  },
-  searchContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#f0f0f0",
-    borderRadius: 8,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    marginBottom: 20,
-  },
-  searchInput: {
-    flex: 1,
-    fontSize: 18,
-    height: 40,
+    color: "#1DA1F2",
   },
   memberItem: {
     flexDirection: "row",
@@ -204,19 +196,18 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginLeft: 10,
   },
-  shareButton: {
-    height: 50,
-    width: "100%",
+  fab: {
+    position: "absolute",
+    right: 20,
+    bottom: 20,
     backgroundColor: "#1DA1F2",
+    width: 60,
+    height: 60,
+    borderRadius: 30,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 40,
-    marginBottom: 85,
-  },
-  shareButtonText: {
-    fontSize: 18,
-    color: "#fff",
-    fontWeight: "bold",
+    elevation: 4,
+    marginBottom: 60,
   },
   modalBackground: {
     flex: 1,

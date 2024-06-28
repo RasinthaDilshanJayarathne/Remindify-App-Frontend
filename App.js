@@ -33,18 +33,19 @@
 //   );
 // }
 
-import "react-native-gesture-handler";
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import { AppProvider } from "./screens/AppContext"; // Ensure this is the correct path
 import AppNavigator from "./screens/AppNavigator";
 
-const Stack = createStackNavigator();
-
-export default function App() {
+const App = () => {
   return (
-    <NavigationContainer>
-      <AppNavigator />
-    </NavigationContainer>
+    <AppProvider>
+      <NavigationContainer>
+        <AppNavigator />
+      </NavigationContainer>
+    </AppProvider>
   );
-}
+};
+
+export default App;

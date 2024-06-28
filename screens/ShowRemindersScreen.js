@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   View,
   Text,
@@ -7,24 +7,64 @@ import {
   TouchableOpacity,
   Platform,
   KeyboardAvoidingView,
+  ActivityIndicator,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-import { useNavigation } from "@react-navigation/native"; // Import useNavigation hook
-
-const reminders = [
-  "Reminder 01",
-  "Reminder 02",
-  "Reminder 03",
-  "Reminder 04",
-  "Reminder 05",
-  "Reminder 06",
-  "Reminder 07",
-  "Reminder 08",
-  "Reminder 09",
-];
+import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
+import { AppContext } from "./AppContext";
 
 const ShowRemindersScreen = () => {
-  const navigation = useNavigation(); // Initialize navigation
+  const [reminders, setReminders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const navigation = useNavigation();
+  const { username } = useContext(AppContext);
+
+  useEffect(() => {
+    const fetchReminders = async () => {
+      try {
+        const response = await axios.get(
+          `http://192.168.43.217:6060/getReminderByUsername?username=${username}`
+        );
+        setReminders(response.data.data || []);
+      } catch (err) {
+        setError(err.message || "An error occurred");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (username) {
+      fetchReminders();
+    }
+  }, [username]);
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://192.168.43.217:6060/deleteReminder/${id}`);
+      setReminders(reminders.filter((reminder) => reminder.id !== id));
+    } catch (err) {
+      setError(err.message || "An error occurred while deleting the reminder");
+    }
+  };
+
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={styles.container}>
+        <Text>{error}</Text>
+      </View>
+    );
+  }
+
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
@@ -47,8 +87,25 @@ const ShowRemindersScreen = () => {
           <View style={styles.remindersContainer}>
             {reminders.map((reminder, index) => (
               <View key={index} style={styles.reminderBox}>
-                <Text style={styles.reminderText}>{reminder}</Text>
-                <Icon name="share-social-outline" size={20} color="#000" />
+                <Text style={styles.reminderText} numberOfLines={3}>
+                  {reminder.message}
+                </Text>
+                <View style={styles.iconContainer}>
+                  <Icon
+                    name="share-social-outline"
+                    size={20}
+                    color="#1DA1F2"
+                    style={styles.icon}
+                  />
+                  <TouchableOpacity onPress={() => handleDelete(reminder.id)}>
+                    <Icon
+                      name="trash-outline"
+                      size={20}
+                      color="#e60000"
+                      style={styles.icon}
+                    />
+                  </TouchableOpacity>
+                </View>
               </View>
             ))}
           </View>
@@ -110,10 +167,19 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 5,
     padding: 10,
+    position: "relative",
   },
   reminderText: {
     fontSize: 16,
     marginBottom: 10,
+    flexShrink: 1,
+    overflow: "hidden",
+  },
+  iconContainer: {
+    position: "absolute",
+    bottom: 10,
+    right: 10,
+    flexDirection: "row",
   },
   bottomNav: {
     flexDirection: "row",

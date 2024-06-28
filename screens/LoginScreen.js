@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+// LoginScreen.js
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   Text,
@@ -10,14 +11,68 @@ import {
   KeyboardAvoidingView,
   Platform,
   Keyboard,
+  ActivityIndicator,
+  Alert,
 } from "react-native";
+import { AppContext } from "./AppContext";
 
 const exploreImage = require("../assets/logo.png");
 const logoSl = require("../assets/srilanka_logo.png");
 
 const LoginScreen = ({ navigation }) => {
+  const { setUsername, setImage } = useContext(AppContext);
   const [keyboardOpen, setKeyboardOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [localUsername, setLocalUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const validateInputs = () => {
+    if (!localUsername || !password) {
+      Alert.alert("Error", "Please fill in all fields");
+      return false;
+    }
+    return true;
+  };
+
+  const handleLogin = async () => {
+    if (!validateInputs()) return;
+
+    setLoading(true);
+
+    try {
+      const response = await fetch(
+        `http://192.168.43.217:6060/login?username=${encodeURIComponent(
+          localUsername
+        )}&password=${encodeURIComponent(password)}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      setLoading(false);
+
+      if (response.ok) {
+        const data = await response.json();
+        Alert.alert("Success", "Logged in successfully");
+        setUsername(localUsername);
+        if (data.data && data.data.image) {
+          setImage(data.data.image); // Set the image in context
+          console.log(data.data.image);
+        }
+        navigation.navigate("Home");
+      } else {
+        const data = await response.json();
+        Alert.alert("Error", data.message || "Login failed");
+      }
+    } catch (error) {
+      setLoading(false);
+      console.error("Error:", error);
+      Alert.alert("Error", "Network request failed");
+    }
+  };
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -38,15 +93,6 @@ const LoginScreen = ({ navigation }) => {
       keyboardDidHideListener.remove();
     };
   }, []);
-
-  const handleLogin = () => {
-    setLoading(true);
-    // Navigate to LoadingScreen
-    setTimeout(() => {
-      setLoading(false);
-      navigation.navigate("Loading");
-    }, 2000); // Simulate login process duration as needed
-  };
 
   return (
     <KeyboardAvoidingView
@@ -73,13 +119,16 @@ const LoginScreen = ({ navigation }) => {
         </View>
         <TextInput
           style={styles.input}
-          placeholder="Enter email"
-          keyboardType="email-address"
+          placeholder="Enter username"
+          value={localUsername}
+          onChangeText={setLocalUsername}
         />
         <TextInput
           style={styles.input}
           placeholder="Enter password"
           secureTextEntry={true}
+          value={password}
+          onChangeText={setPassword}
         />
         <Text style={styles.forgotPassword}>Forget Password ?</Text>
         <TouchableOpacity
@@ -87,7 +136,11 @@ const LoginScreen = ({ navigation }) => {
           onPress={handleLogin}
           disabled={loading}
         >
-          <Text style={styles.loginButtonText}>Login</Text>
+          {loading ? (
+            <ActivityIndicator color="#fff" />
+          ) : (
+            <Text style={styles.loginButtonText}>Login</Text>
+          )}
         </TouchableOpacity>
         <Text style={styles.createAccountText}>
           Not registered yet?{" "}

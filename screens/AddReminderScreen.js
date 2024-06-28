@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -8,22 +8,51 @@ import {
   TouchableOpacity,
   Platform,
   KeyboardAvoidingView,
+  Alert,
+  ToastAndroid,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-import { useNavigation } from "@react-navigation/native"; // Import useNavigation hook
+import { useNavigation } from "@react-navigation/native";
+import axios from "axios"; // Import Axios
+import { AppContext } from "./AppContext";
 
 const AddReminderScreen = () => {
-  const navigation = useNavigation(); // Initialize navigation
+  const navigation = useNavigation();
+  const { username } = useContext(AppContext);
   const [scrollBackground, setScrollBackground] = useState("transparent");
   const [reminderText, setReminderText] = useState("");
 
   const handleScroll = (event) => {
     const offsetY = event.nativeEvent.contentOffset.y;
-    const threshold = 100; // Adjust this threshold as needed
+    const threshold = 100;
     if (offsetY > threshold) {
-      setScrollBackground("#f0f0f0"); // Change background color when scrolling
+      setScrollBackground("#f0f0f0");
     } else {
-      setScrollBackground("transparent"); // Reset to transparent when scrolling back to top
+      setScrollBackground("transparent");
+    }
+  };
+
+  const handleAddReminder = async () => {
+    try {
+      const response = await fetch("http://192.168.43.217:6060/addReminder", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: username,
+          message: reminderText,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      ToastAndroid.show("Reminder Successfully Added", ToastAndroid.SHORT);
+      // Clear reminderText input
+      setReminderText("");
+    } catch (error) {
+      Alert.alert("Error");
     }
   };
 
@@ -50,16 +79,18 @@ const AddReminderScreen = () => {
           style={{ backgroundColor: scrollBackground }}
         >
           <Text style={styles.greetingText}>Welcome back Reminder App!</Text>
-          {/* TextInput for keyboard input */}
           <TextInput
             style={styles.reminderInput}
             placeholder="Enter your reminder"
             value={reminderText}
             onChangeText={(text) => setReminderText(text)}
             multiline={true}
-            textAlignVertical="top" // Add this line
+            textAlignVertical="top"
           />
-          <TouchableOpacity style={styles.addButton}>
+          <TouchableOpacity
+            style={styles.addButton}
+            onPress={handleAddReminder}
+          >
             <Text style={styles.addButtonText}>ADD REMINDER</Text>
           </TouchableOpacity>
         </ScrollView>
@@ -74,6 +105,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: Platform.OS === "ios" ? 30 : 30,
     backgroundColor: "#f5f5f5",
+    marginBottom: 60,
   },
   header: {
     flexDirection: "row",
@@ -104,7 +136,7 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
     borderRadius: 8,
     marginBottom: 20,
-    textAlignVertical: "top", // Add this line
+    textAlignVertical: "top",
   },
   addButton: {
     height: 50,
@@ -112,7 +144,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#1DA1F2",
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 20,
     borderRadius: 40,
   },
   addButtonText: {
